@@ -50,11 +50,11 @@ namespace Networking
             string[] stringOctets = ipString.Split('.');
             if (stringOctets.Length == 4)
             {
-                short[] octets = stringOctets
-                                .Select(short.Parse)
+                ushort[] octets = stringOctets
+                                .Select(ushort.Parse)
                                 .ToArray();
 
-                short offset = 24;
+                ushort offset = 24;
                 foreach (int octet in octets)
                 {
                     if (octet >= 0 && octet <= 255)
