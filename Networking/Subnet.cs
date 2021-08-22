@@ -5,13 +5,13 @@ namespace Networking
     class Subnet
     {
         public IP NetworkAddress { get; }
-        private ushort suffix;
+        public ushort Suffix { get; }
 
         public Subnet(IP NetworkAddress, ushort Suffix)
         {   
             if (Suffix <= 32)
             {
-                suffix = Suffix;
+                this.Suffix = Suffix;
             } else
             {
                 throw new ArgumentOutOfRangeException("The given suffix is invalid; Expected value between 0 and 32");
@@ -41,30 +41,44 @@ namespace Networking
                 x *= 2;
                 hostBits++;
             }
-            suffix = (ushort)(32 - hostBits);
+            Suffix = (ushort)(32 - hostBits);
 
-            NetworkAddress = CalcNetworkAddress(A, suffix);
+            NetworkAddress = CalcNetworkAddress(A, Suffix);
         }
 
         /// <summary>Returns a string representation of the network mask</summary>
         /// <returns>String representation of the network mask</returns>
         public string NetworkMask()
         {
-            return new IP(calcNetworkMask(suffix)).ToString();
+            return new IP(calcNetworkMask(Suffix)).ToString();
         }
         
         /// <summary>Calculates the possible amount of hosts for the subnet</summary>
         /// <returns>Possible hostcount of the subnet</returns>
         public uint PossibleHostCount()
         {
-            return Convert.ToUInt32(Math.Pow(2, 32 - suffix) - 2);
+            return Convert.ToUInt32(Math.Pow(2, 32 - Suffix) - 2);
         }
 
         /// <summary>Returns the broadcast-address of the subnet</summary>
         /// <returns>The broadcast-address of the subnet</returns>
         public IP Broadcast()
         {
-            return new IP(CalcNetworkAddress(NetworkAddress, suffix) | InverseNetworkMask());
+            return new IP(CalcNetworkAddress(NetworkAddress, Suffix) | InverseNetworkMask());
+        }
+
+        /// <summary>Returns the first usable ip-address of the subnet</summary>
+        /// <returns>The first usable ip-address of the subnet</returns>
+        public IP FirstHost()
+        {
+            return NetworkAddress + 1u;
+        }
+
+        /// <summary>Returns the last usable ip-address of the subnet</summary>
+        /// <returns>The last usable ip-address of the subnet</returns>
+        public IP LastHost()
+        {
+            return Broadcast() - 1u;
         }
 
         /// <summary>Checks if the given host is a valid host in the subnet</summary>
@@ -77,12 +91,12 @@ namespace Networking
         /// <returns>The flipped network-mask of the subnet</returns>
         public IP InverseNetworkMask()
         {
-            return ~new IP(calcNetworkMask(suffix));
+            return ~new IP(calcNetworkMask(Suffix));
         }
 
         public override string ToString()
         {
-            return $"{NetworkAddress}/{suffix}";
+            return $"{NetworkAddress}/{Suffix}";
         }
 
         /// <summary>Calculates the correct network address</summary>

@@ -95,13 +95,18 @@ namespace Networking
         public static uint operator &(uint a, IP b) => a & b.packagedIP;
         public static uint operator |(IP a, IP b) => a.packagedIP | b.packagedIP;
         public static IP operator ~(IP IpToInverse) => new IP(~IpToInverse.packagedIP);
+
         public static bool operator !=(IP a, IP b) => a.packagedIP != b.packagedIP;
         public static bool operator ==(IP a, IP b) => a.packagedIP == b.packagedIP;
+
         public static bool operator <(IP a, IP b) => a.packagedIP < b.packagedIP;
         public static bool operator >(IP a, IP b) => a.packagedIP > b.packagedIP;
         public static bool operator <=(IP a, IP b) => a.packagedIP <= b.packagedIP;
         public static bool operator >=(IP a, IP b) => a.packagedIP >= b.packagedIP;
+
         public static uint operator -(IP a, IP b) => a.packagedIP - b.packagedIP;
+        public static IP operator -(IP a, uint b) => new IP(a.packagedIP - b);
+        public static IP operator +(IP a, uint b) => new IP(a.packagedIP + b);
 
         public override int GetHashCode()
         {

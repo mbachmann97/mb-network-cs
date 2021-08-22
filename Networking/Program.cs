@@ -11,6 +11,8 @@ namespace Networking
             // Console.WriteLine(sn);
             // Console.WriteLine(sn.NetworkMask());
             // Console.WriteLine(sn.Broadcast());
+            // Console.WriteLine(s.FirstHost());
+            // Console.WriteLine(s.LastHost());
 
             IP a = new IP("10.0.0.0");
             IP b = new IP("10.222.255.65");
@@ -19,6 +21,8 @@ namespace Networking
             Console.WriteLine(s);
             Console.WriteLine(s.NetworkMask());
             Console.WriteLine(s.Broadcast());
+            Console.WriteLine(s.FirstHost());
+            Console.WriteLine(s.LastHost());
         }
     }
 }
