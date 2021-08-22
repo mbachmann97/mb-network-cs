@@ -27,6 +27,25 @@ namespace Networking
             }
         }
 
+        /// <summary>Creates the smallest possible subnet that includes the two given ip-addresses</summary>
+        public Subnet(IP A, IP B)
+        {
+            uint diff = A > B ? A - B : B - A;
+
+            long tempDiff = (long)diff + 1;
+            uint x = 1;
+            ushort hostBits = 0;
+            while (tempDiff > 0)
+            {
+                tempDiff -= x;
+                x *= 2;
+                hostBits++;
+            }
+            suffix = (ushort)(32 - hostBits);
+
+            NetworkAddress = CalcNetworkAddress(A, suffix);
+        }
+
         /// <summary>Returns a string representation of the network mask</summary>
         /// <returns>String representation of the network mask</returns>
         public string NetworkMask()
@@ -84,7 +103,7 @@ namespace Networking
 
         private static uint calcNetworkMask(ushort suffix)
         {
-            uint networkMask = 0;
+            uint networkMask = 0b0u;
             short offset = 31;
             for (int i = 0; i < suffix; i++)
             {

@@ -101,6 +101,7 @@ namespace Networking
         public static bool operator >(IP a, IP b) => a.packagedIP > b.packagedIP;
         public static bool operator <=(IP a, IP b) => a.packagedIP <= b.packagedIP;
         public static bool operator >=(IP a, IP b) => a.packagedIP >= b.packagedIP;
+        public static uint operator -(IP a, IP b) => a.packagedIP - b.packagedIP;
 
         public override int GetHashCode()
         {
